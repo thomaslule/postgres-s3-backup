@@ -9,7 +9,9 @@ jobs:
   push:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-
+    strategy:
+      matrix:
+        postgres: [postgres10, postgres11, postgres12, postgres13]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -57,8 +59,8 @@ jobs:
           docker buildx build \
             --output type=image,name=${{ steps.prepare.outputs.docker_image }},push=true \
             --platform ${{ steps.prepare.outputs.docker_platforms }} \
-            --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.major }}" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.minor }}" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.patch }}" \
-            --file Dockerfile .
+            --tag "${{ steps.prepare.outputs.docker_image }}:latest-${{ matrix.postgres }}" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.major }}-${{ matrix.postgres }}" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.minor }}-${{ matrix.postgres }}" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.patch }}-${{ matrix.postgres }}" \
+            --file docker/${{ matrix.postgres }}.Dockerfile .

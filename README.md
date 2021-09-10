@@ -18,7 +18,7 @@ services:
       - postgres_data:/data/postgres
 
   postgres-backup:
-    image: thomaslule/postgres-s3-backup:latest
+    image: thomaslule/postgres-s3-backup:latest-postgres12
     depends_on:
       - postgres
     environment:
@@ -73,8 +73,8 @@ The AWS Secret Key
 
 - required: true
 
-## Limitation
+## Postgres version
 
-This docker image uses `pg_dump` and if its version isn't exactly the same as the postgres server version, this tool will fail with the error `aborting because of server version mismatch`.
+You must chose the image that corresponds to your postgres version, or you will get an error `aborting because of server version mismatch`. This is because this tool uses `pg_dump` and it only works for a server with the same version.
 
-In order to have the same `pg_dump` version as your database, you must rebuild this image from another alpine version, you can search an alpine branch that contain the right postgres version [here](https://pkgs.alpinelinux.org/packages?name=postgresql-client&branch=v3.11).
+If you want to build your own image for another version, you can search an alpine branch that contain the right postgres version [here](https://pkgs.alpinelinux.org/packages?name=postgresql-client&branch=v3.11).
