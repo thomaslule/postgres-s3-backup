@@ -2,6 +2,8 @@
 
 A docker image that is scheduled to backup a postgres database and upload the dump file to an S3 bucket.
 
+https://hub.docker.com/repository/docker/thomaslule/postgres-s3-backup
+
 ## Usage example
 
 Docker-compose usage example:
@@ -75,6 +77,8 @@ The AWS Secret Key
 
 ## Postgres version
 
+List of published tags [here](https://hub.docker.com/repository/docker/thomaslule/postgres-s3-backup/tags).
+
 You must chose the image that corresponds to your postgres version, or you will get an error `aborting because of server version mismatch`. This is because this tool uses `pg_dump` and it only works for a server with the same version.
 
-If you want to build your own image for another version, you can search an alpine branch that contain the right postgres version [here](https://pkgs.alpinelinux.org/packages?name=postgresql-client&branch=v3.11).
+If you want to build your own image for another version, you can look for an alpine branch that contain the right postgres version [here](https://pkgs.alpinelinux.org/packages?name=postgresql-client&branch=v3.11).
